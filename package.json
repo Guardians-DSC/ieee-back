@@ -1,0 +1,22 @@
+{
+  "name": "ieee-back",
+  "version": "1.0.0",
+  "description": "### Sobre a aplicação",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Guardians-DSC/ieee-back.git"
+  },
+  "author": "IEEE Development Cell @ Guardians-UFCG",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Guardians-DSC/ieee-back/issues"
+  },
+  "homepage": "https://github.com/Guardians-DSC/ieee-back#readme",
+  "dependencies": {
+    "mongoose": "^5.3.13"
+  }
+}
