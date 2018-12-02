@@ -4,30 +4,21 @@ const TaskSchema = new mongoose.Schema({
 
     name : {
         type: String,
-        default: ""
-    },
-
-    author: {
-        type: mongoose.Schema.ObjectId,
-        default: {},
+        default: "",
         required: true,
     },
 
     description: {
         type: String,
         default: "",
+        required: true,
     },
 
     hours: {
-        type: Number
+        type: Number,
+        default: 0,
+        required: true,
     },
-
-    members:[
-        {
-            type: mongoose.Schema.ObjectId,
-            default: {}
-        }
-    ],
 
 });
 
