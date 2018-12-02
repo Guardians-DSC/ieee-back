@@ -52,7 +52,7 @@ const taskService = (()=> {
     return {
         saveTask: _saveTask,
         removeTask: _removeTask,
-        getTasks: _getAllTasks,
+        getAllTasks: _getAllTasks,
     }
     
 })();
