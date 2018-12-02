@@ -1,10 +1,13 @@
-const Task = require('./task.controller');
+const mongoose = require('mongoose');
 const response = require('../../util/responses');
+const Task = require('./task.model');
 
 
-const taskService = (()=> {
+const taskService = (function ()  {
     const _saveTask = async function name(task, callback) {
         try {
+            console.log("entrou savetask");
+            
             //TODO: Módulo de validação de dados vindos do front
             const newTask = await Task.create(task);
             
@@ -36,18 +39,18 @@ const taskService = (()=> {
     }
 
     const _getAllTasks = async function (callback) {
-        Task.find({}, function(err, tasks) {
+        console.log("entrou task service");
+        Task.find({}, function (err, tasks) {
+            console.log("entrou no find do service");
             if (err) {
                 callback(
                     response.notFound('Não foi possivel recuperar atividades')
                 );
             } else {
-                callback(
-                    response.ok('', tasks)
-                );
+                callback(response.ok("", tasks));
             }
-        })
-    }
+        });
+    };
 
     return {
         saveTask: _saveTask,
@@ -56,3 +59,5 @@ const taskService = (()=> {
     }
     
 })();
+
+module.exports = taskService;

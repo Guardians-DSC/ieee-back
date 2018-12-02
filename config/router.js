@@ -1,5 +1,5 @@
-const taskController = require('../src/activity/task.controller');
+const taskController = require('../src/task/task.controller');
 
 module.exports = (app) => {
-    app.use('/task', taskController);
+    app.use("/task", taskController);
 };
