@@ -20,6 +20,10 @@ const TaskSchema = new mongoose.Schema({
         required: true,
     },
 
+    /*
+    TODO: Relacionar as entidades
+    */
+
 });
 
 const Task = mongoose.model("Task", TaskSchema);

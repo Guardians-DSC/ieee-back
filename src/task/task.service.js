@@ -4,10 +4,8 @@ const Task = require('./task.model');
 
 
 const taskService = (function ()  {
-    const _saveTask = async function name(task, callback) {
+    const _saveTask = async function (task, callback) {
         try {
-            console.log("entrou savetask");
-            
             //TODO: Módulo de validação de dados vindos do front
             const newTask = await Task.create(task);
             
@@ -19,18 +17,19 @@ const taskService = (function ()  {
 
     const _removeTask = async function (taskId, callback) {
         try {
+            
             const task = await Task.findByIdAndRemove(
                 mongoose.Types.ObjectId(taskId)
-            );
-
+                );
+                
             if (!task) {
                 return callback(
                     response.notFound('Não foi possível encontrar atividade informada.')
                 );
+            }
             return callback(
                 response.ok('Atividade removida com sucesso.')
             );
-            }
         } catch (err) {
             return callback(
                 response.notFound("Remoção da atividade mal sucedida.")
@@ -39,9 +38,9 @@ const taskService = (function ()  {
     }
 
     const _getAllTasks = async function (callback) {
-        console.log("entrou task service");
+
         Task.find({}, function (err, tasks) {
-            console.log("entrou no find do service");
+
             if (err) {
                 callback(
                     response.notFound('Não foi possivel recuperar atividades')
