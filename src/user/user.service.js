@@ -46,10 +46,28 @@ const userService = (function () {
         });
     };
 
+    const _updateUser = async function (userId,updatedInfo, callback) {
+        try {
+            await User.findByIdAndUpdate(userId, updatedInfo, function (err, user) {
+                if (err) {
+                    return callback(
+                        response.badRequest('Erro na atualização')
+                    );
+                }
+                return callback(
+                    response.ok('', user)
+                );
+            });
+        } catch (err) {
+            callback(response.badRequest('Erro na atualização'))
+        }
+    }
+
     return {
         saveUser: _saveUser,
         removeUser: _removeUser,
         getAllUsers: _getAllUsers,
+        updateUser: _updateUser,
     }
 })();
 

@@ -51,10 +51,32 @@ const taskService = (function ()  {
         });
     };
 
+    const _updateTask = async function (taskId, updatedInfo, callback) {
+        try {
+            await Task.findByIdAndUpdate( taskId, updatedInfo, function (err, task) {
+                
+                if (err) {
+                    return callback(
+                        response.badRequest('Não foi possível atualizar Atividade.')
+                    );
+                }
+                
+                return callback(
+                    response.ok('', task)
+                );
+            })
+        } catch (err) {
+            callback(
+                response.badRequest('Erro na atualização')
+            );
+        }
+    }
+
     return {
         saveTask: _saveTask,
         removeTask: _removeTask,
         getAllTasks: _getAllTasks,
+        updateTask: _updateTask,
     }
     
 })();

@@ -21,4 +21,10 @@ router.get('/', (req, res) => {
     
 });
 
+router.put('/:taskId', (req, res) => {
+    taskService.updateTask(req.params.taskId, req.body, (response) => {
+        res.status(response.status).send(response);
+    });
+});
+
 module.exports = router;

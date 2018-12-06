@@ -20,4 +20,10 @@ router.get('/', (req, res) => {
     });
 });
 
+router.put('/:userId', (req, res) => {
+    userService.updateUser(req.params.userId,req.body, (response) => {
+        res.status(response.status).send(response);
+    });
+});
+
 module.exports = router;
