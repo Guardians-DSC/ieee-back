@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const TaskSchema = new mongoose.Schema({
     /**
-     * Nome da atividade
+     * Name of activity
      */
     name : {
         type: String,
@@ -10,7 +10,7 @@ const TaskSchema = new mongoose.Schema({
         required: true,
     },
     /**
-     * Tipo da atividade
+     * Type of activity
      */
     type: {
         type: String,
@@ -18,8 +18,7 @@ const TaskSchema = new mongoose.Schema({
         required: true,
     },
     /**
-     * Descrição opcional
-     * Edit: Mudado para FALSE, visto que é opcional
+     * Optional description
      */
     description: {
         type: String,
@@ -27,7 +26,7 @@ const TaskSchema = new mongoose.Schema({
         required: false,
     },
     /**
-     * Data de realização
+     * Date of completion
      */
     date: {
         type: Date,
@@ -35,9 +34,9 @@ const TaskSchema = new mongoose.Schema({
         required: true,
     },
     /**
-     * Carga horária
+     * Workload of the activity
      */
-    //Renomeei Hours para workload (carga horária), pra não haver ambiguidades.
+    
     workload: {
         type: Number,
         default: 0,
@@ -45,7 +44,7 @@ const TaskSchema = new mongoose.Schema({
     },
 
     /**
-     * Horario em que foi realizado.
+     * Time of the day it was performed
      */
     time: {
         type: String,
