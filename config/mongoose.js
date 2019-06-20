@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
 module.exports = function () {
-    //TODO: Criar e conectar BD
+    //const url = 'mongodb://username:dbpassword@ds058508.mlab.com:58508/ieee-db'
+    //mongoose.connect(url,{useNewUrlParser:true})
+    
     mongoose.connect('mongodb://localhost:27017/workshop', { useNewUrlParser: true });
     mongoose.Promise = global.Promise;
 
