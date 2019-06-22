@@ -47,13 +47,10 @@ const TaskSchema = new mongoose.Schema({
      * Time of the day it was performed
      */
     time: {
-        type: String,
-        default: "00:00:00",
+        type: Date,
+        default: Date.now,
         requird : true,
     }
-    /*
-    TODO: Relacionar as entidades
-    */
 
 });
 
