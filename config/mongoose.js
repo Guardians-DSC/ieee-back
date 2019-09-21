@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
+mongoose.set('useFindAndModify', false);
 
 module.exports = function () {
-    //const url = 'mongodb://username:dbpassword@ds058508.mlab.com:58508/ieee-db'
-    //mongoose.connect(url,{useNewUrlParser:true})
     
-    mongoose.connect('mongodb://localhost:27017/workshop', { useNewUrlParser: true });
+    mongoose.connect('mongodb+srv://ieee-user:chMvJJdZRcqe28L0@ieee-apk-db-2c5e2.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
+    //mongoose.connect('mongodb://localhost:27017/workshop', { useNewUrlParser: true });
+    
     mongoose.Promise = global.Promise;
 
     const db = mongoose.connection;
