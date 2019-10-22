@@ -72,11 +72,25 @@ const taskService = (function ()  {
         }
     }
 
+    const _getTaskById = async function (id, callback) {
+        Task.findById(id, function (err, tasks) {
+            if (err) {
+                callback(
+                    response.notFound('Não foi possivel recuperar atividades')
+                );
+            } else {
+                callback(response.ok("", tasks));
+            }
+        });
+    };
+
+
     return {
         saveTask: _saveTask,
         removeTask: _removeTask,
         getAllTasks: _getAllTasks,
         updateTask: _updateTask,
+        getTaskById: _getTaskById
     }
     
 })();
