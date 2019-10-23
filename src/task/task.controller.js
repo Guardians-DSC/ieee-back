@@ -8,14 +8,15 @@ router.post('/', (req, res) => {
     });
 });
 
-router.delete('/:taskId', (req, res) => {
-    taskService.removeTask(req.params.taskId, (response) => {
-        res.status(response.status).send(response);
-    });
-});
-
 router.get('/', (req, res) => {
     taskService.getAllTasks((response) => {
+        res.status(response.status).send(response);
+    });
+    
+});
+
+router.get('/:taskId', (req, res) => {
+    taskService.getTaskById(req.params.taskId, (response) => {
         res.status(response.status).send(response);
     });
     
@@ -26,5 +27,12 @@ router.put('/:taskId', (req, res) => {
         res.status(response.status).send(response);
     });
 });
+
+router.delete('/:taskId', (req, res) => {
+    taskService.removeTask(req.params.taskId, (response) => {
+        res.status(response.status).send(response);
+    }); 
+});
+
 
 module.exports = router;
