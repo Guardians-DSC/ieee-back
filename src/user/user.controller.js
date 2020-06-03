@@ -3,27 +3,33 @@ const router = express.Router();
 const userService = require('./user.service');
 
 router.post('/', (req, res)=> {
-    userService.saveUser(req.body, (response) => {
-        res.status(response.status).send(response)
-    });
-});
-
-router.delete('/:userId', (req, res) => {
-    userService.removeUser(req.params.userId, (response) => {
-        res.status(response.status).send(response);
-    });
+  userService.saveUser(req.body, (response) => {
+    res.status(response.status).send(response)
+  });
 });
 
 router.get('/', (req, res) => {
-    userService.getAllUsers((response) => {
-        res.status(response.status).send(response);
-    });
+  userService.getAllUsers((response) => {
+    res.status(response.status).send(response);
+  });
+});
+
+router.get('/:userId', (req, res) => {
+  userService.getUserByEmail(req.params.userId, (response) => {
+    res.status(response.status).send(response);
+  });
 });
 
 router.put('/:userId', (req, res) => {
-    userService.updateUser(req.params.userId,req.body, (response) => {
-        res.status(response.status).send(response);
-    });
+  userService.updateUser(req.params.userId, req.body, (response) => {
+    res.status(response.status).send(response);
+  });
+});
+
+router.delete('/:userId', (req, res) => {
+  userService.removeUser(req.params.userId, (response) => {
+    res.status(response.status).send(response);
+  });
 });
 
 module.exports = router;
