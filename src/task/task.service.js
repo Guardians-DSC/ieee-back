@@ -35,7 +35,6 @@ const taskService = (function ()  {
   const _getAllTasks = async function (callback) {
     try {
       Task.find({}, function (err, tasks) {
-        console.log(err);
         if (err) 
           return callback(response.notFound('Não foi possível recuperar as atividades.'));
         else 
