@@ -3,7 +3,7 @@ mongoose.set('useFindAndModify', false);
 
 module.exports = function () {
     
-    mongoose.connect('mongodb+srv://ieee-user:chMvJJdZRcqe28L0@ieee-apk-db-2c5e2.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
+    mongoose.connect('mongodb+srv://ieee-user:chMvJJdZRcqe28L0@ieee-apk-db-2c5e2.mongodb.net/test?retryWrites=true&w=majority', { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true });
     //mongoose.connect('mongodb://localhost:27017/workshop', { useNewUrlParser: true });
     
     mongoose.Promise = global.Promise;

@@ -2,26 +2,38 @@ const mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
 
 const UserSchema = new mongoose.Schema({
+  email : {         //used like the id
+    type: String,
+    default: "",
+    required: true,
+    unique: true
+  },
 
-    name : {
-        type: String,
-        default: "",
-        required: true,
-    },
+  password : {
+    type: String,
+    default: "",
+    required: true
+  },
 
-    isMainDirector : {
-        type: Boolean,
-        required: false,
-    },
+  name : {
+    type: String,
+    default: "",
+    required: true
+  },
 
-    role : {
-        type: String,
-        required: true,
-    },
+  isAdmin : {
+    type: Boolean,
+    required: false
+  },
 
-    /*
-        TODO: Relacionar as entidades
-    */
+  department : {
+    type: String,
+    required: true
+  },
+
+  active: {
+    type: Boolean,
+  },
 
 });
 

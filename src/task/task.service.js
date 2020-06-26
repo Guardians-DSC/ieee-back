@@ -1,98 +1,122 @@
-const mongoose = require('mongoose');
 const response = require('../../util/responses');
+const Nucle = require('../nucle/nucle.model');
 const Task = require('./task.model');
 
-
 const taskService = (function ()  {
-    const _saveTask = async function (task, callback) {
-        try {
-            //TODO: Módulo de validação de dados vindos do front
-            const newTask = await Task.create(task);
-            
-            return callback(response.ok("Atividade criada com sucesso."));
-        } catch (err) {
-            return callback(response.badRequest(err.message))
-        }
-    };
 
-    const _removeTask = async function (taskId, callback) {
-        try {
-            
-            const task = await Task.findByIdAndRemove(
-                mongoose.Types.ObjectId(taskId)
-                );
-                
-            if (!task) {
-                return callback(
-                    response.notFound('Não foi possível encontrar atividade informada.')
-                );
-            }
-            return callback(
-                response.ok('Atividade removida com sucesso.')
-            );
-        } catch (err) {
-            return callback(
-                response.notFound("Remoção da atividade mal sucedida.")
-            );
-        }
+  const _saveTask = async function (taskInfo, callback) {
+    try {
+      const newTask = await Task.create(taskInfo);
+      
+      await Nucle.findOneAndUpdate({name: newTask.nucle}, { $push: { tasks: newTask._id } });
+
+      return callback(response.ok(`Atividade '${newTask.name}' criada com sucesso.`, newTask));
+
+    } catch (err) {
+      return callback(response.badRequest(err.message))
     }
+  };
 
-    const _getAllTasks = async function (callback) {
+  const _getTaskById = async function (taskId, callback) {
+    try {
+      const task = await Task.findById(taskId);
 
-        Task.find({}, function (err, tasks) {
+      if (task)
+        return callback(response.ok('', task));
 
-            if (err) {
-                callback(
-                    response.notFound('Não foi possivel recuperar atividades')
-                );
-            } else {
-                callback(response.ok("", tasks));
-            }
+      else 
+        return callback(response.notFound('Não foi possivel encontrar a atividades.'));
+
+    } catch (err) {
+      return callback(response.badRequest('Erro ao recuperar atividade.'));
+    }
+  };
+
+  const _getAllTasks = async function (callback) {
+    try {
+      Task.find({}, function (err, tasks) {
+        if (err) 
+          return callback(response.notFound('Não foi possível recuperar as atividades.'));
+        else 
+          return callback(response.ok("", tasks));
+      });
+
+    } catch (err) {
+      return callback(response.badRequest('Erro ao retornar atividades.'));
+    }
+  };
+
+  const _updateTask = async function (taskId, updatedInfo, callback) {
+    try {
+      const task = await Task.findByIdAndUpdate(taskId, updatedInfo, err => {
+        if (err) 
+          return callback(response.badRequest('Não foi possível atualizar a atividade.'));
+      });
+
+      return callback(response.ok('', task));
+
+    } catch (err) {
+      return callback(response.badRequest('Erro na atualização.'));
+    }
+  }
+
+  const _removeTask = async function (taskId, callback) {
+    try {
+      const task = await Task.findByIdAndDelete(taskId);
+
+      await Nucle.findOneAndUpdate({name: task.nucle}, { $pull: { tasks: task._id } });
+
+      if (!task)
+        return callback(response.notFound('Não foi possível encontrar atividade informada.'));
+
+      return callback(response.ok('Atividade removida com sucesso.'));
+
+    } catch (err) {
+      return callback (response.notFound('Remoção da atividade mal sucedida.'));
+    }
+  }
+
+  const _addUser = async function (taskInfo, callback) {
+    try {
+      const task = await Task.findOneAndUpdate( { _id : taskInfo.taskId, nucle : taskInfo.nucle }, 
+      { $addToSet: { users: taskInfo.userEmail } }, err => {
+        if (err) 
+          return callback(response.badRequest('Não foi possível adicionar o usuário na atividade.'));
+      });
+
+      return callback(response.ok('', task));
+
+    } catch (err) {
+      return callback(response.badRequest('Erro na atualização.'));
+    }
+  }
+  
+  const _removeUser = async function (taskInfo, callback) {
+    try {   
+      const task = await Task.findOneAndUpdate( { _id : taskInfo.taskId, nucle : taskInfo.nucle }, 
+        { $pull: { users: taskInfo.userEmail } }, err => {
+          if (err) 
+            return callback(response.badRequest('Não foi possível remover o usuário da atividade.'));
         });
-    };
 
-    const _updateTask = async function (taskId, updatedInfo, callback) {
-        try {
-            await Task.findByIdAndUpdate( taskId, updatedInfo, function (err, task) {
-                
-                if (err) {
-                    return callback(
-                        response.badRequest('Não foi possível atualizar Atividade.')
-                    );
-                }
-                
-                return callback(
-                    response.ok('', task)
-                );
-            })
-        } catch (err) {
-            callback(
-                response.badRequest('Erro na atualização')
-            );
-        }
+      return callback(response.ok('', task));
+
+    } catch (err) {
+      return callback(response.badRequest('Erro ao remover usuário da atividade.'));
     }
-
-    const _getTaskById = async function (id, callback) {
-        Task.findById(id, function (err, tasks) {
-            if (err) {
-                callback(
-                    response.notFound('Não foi possivel recuperar atividades')
-                );
-            } else {
-                callback(response.ok("", tasks));
-            }
-        });
-    };
+  }
 
 
-    return {
-        saveTask: _saveTask,
-        removeTask: _removeTask,
-        getAllTasks: _getAllTasks,
-        updateTask: _updateTask,
-        getTaskById: _getTaskById
-    }
-    
+  return {
+    saveTask: _saveTask,
+    getTaskById: _getTaskById,
+    getAllTasks: _getAllTasks,
+    updateTask: _updateTask,
+    removeTask: _removeTask,
+    addUser: _addUser,
+    removeUser: _removeUser
+  }
+  
 })();
 
 module.exports = taskService;
