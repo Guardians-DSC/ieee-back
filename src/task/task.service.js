@@ -6,12 +6,16 @@ const taskService = (function ()  {
 
   const _saveTask = async function (taskInfo, callback) {
     try {
-      const newTask = await Task.create(taskInfo);
-      
-      await Nucle.findOneAndUpdate({name: newTask.nucle}, { $push: { tasks: newTask._id } });
+      const nucle = await Nucle.findOne({name: taskInfo.nucle});
 
-      return callback(response.ok(`Atividade '${newTask.name}' criada com sucesso.`, newTask));
+      if(nucle != undefined){
+        const newTask = await Task.create(taskInfo);
+        await Nucle.updateOne(nucle, { $push: { tasks: newTask._id } });
 
+        return callback(response.ok(`Atividade '${newTask.name}' criada com sucesso.`, newTask));
+      }
+
+      return callback(response.badRequest('Núcleo inexistente.'))
     } catch (err) {
       return callback(response.badRequest(err.message))
     }

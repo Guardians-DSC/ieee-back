@@ -21,22 +21,18 @@ const TaskSchema = new mongoose.Schema({
 
   initialDate: {
     type: Date,
-    required: true,
   },
 
   finalDate: {
     type: Date,
-    required: true,
   },
 
   startTime: {
     type: Date,
-    requird : true,
   },
 
   closingTime: {
     type: Date,
-    requird : true,
   },
 
   workload: {
