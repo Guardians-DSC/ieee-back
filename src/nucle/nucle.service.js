@@ -5,8 +5,8 @@ const nucleService = (function ()  {
   const _saveNucle = async function (nucle, callback) {
     try {
       const newNucle = await Nucle.create(nucle);
-        
-      return callback(response.ok(`Núcleo ${newNucle.name} criado com sucesso.`));
+      
+      return callback(response.ok(`Núcleo ${newNucle.name} criado com sucesso.`, newNucle));
 
     } catch (err) {
       return callback(response.badRequest(err.message))
