@@ -52,7 +52,7 @@ const taskService = (function ()  {
 
   const _updateTask = async function (taskId, updatedInfo, callback) {
     try {
-      const task = await Task.findByIdAndUpdate(taskId, updatedInfo, err => {
+      const task = await Task.findByIdAndUpdate(taskId, updatedInfo, {new: true}, err => {
         if (err) 
           return callback(response.badRequest('Não foi possível atualizar a atividade.'));
       });
