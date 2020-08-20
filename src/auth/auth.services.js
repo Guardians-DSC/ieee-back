@@ -6,8 +6,6 @@ const authConfig = require('../../config/auth.json');
 const response = require('../../util/responses');
 const User = require('../user/user.model');
 
-const AuthMiddleware = require('../auth/auth.middleware');
-
 function generateToken(params = {}) {
   return jwt.sign(params, authConfig.secret, {
     expiresIn: 86400
@@ -45,7 +43,7 @@ const authService = (function () {
     if(!passwordMatch)
       return callback(response.badRequest('Senha inválida.'));
 
-    return callback(response.ok({ user, token: generateToken({ id: user.email })}));
+    return callback(response.ok('', { user, token: generateToken({ id: user.email })}));
   };
   
   const _checkToken = function (req, callback) {
