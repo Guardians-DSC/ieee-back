@@ -15,4 +15,10 @@ router.post('/login', async (req, res) => {
   });
 });
 
+router.get('/checkToken', async (req, res) => {
+  authService.checkToken(req, (response) => {
+    res.status(response.status).send(response)
+  });
+});
+
 module.exports = router;
