@@ -43,12 +43,34 @@ const authService = (function () {
     if(!passwordMatch)
       return callback(response.badRequest('Senha inválida.'));
 
-    return callback(response.ok({ user, token: generateToken({ id: user.email })}));
-  }
+    return callback(response.ok('', { user, token: generateToken({ id: user.email })}));
+  };
+  
+  const _checkToken = function (req, callback) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader)
+      return callback(response.unauthorized('No token provided.'));
+
+    const parts = authHeader.split(' ');
+    if (!parts.length === 2)
+      return callback(response.unauthorized('Token error.'));
+
+    const [ scheme, token ] = parts;    
+    if (!/^Bearer$/i.test(scheme))
+      return callback(response.unauthorized('Token malformatted.'));
+
+    jwt.verify(token, authConfig.secret, (err, decoded) => {
+      if (err) return callback(response.unauthorized('Token invalid.'));
+
+      req.userId = decoded.id;
+      return callback(response.ok());
+    });
+  };
 
   return {
     register: _register,
-    login: _login
+    login: _login,
+    checkToken: _checkToken
   }
   
 })();
