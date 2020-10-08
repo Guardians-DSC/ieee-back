@@ -32,8 +32,8 @@ const UserSchema = new mongoose.Schema({
   },
 
   active: {
-    type: Boolean,
-  },
+    type: Boolean
+  }
 
 });
 

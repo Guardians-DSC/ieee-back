@@ -44,7 +44,7 @@ const nucleService = (function ()  {
 
   const _updateNucle = async function (nucleName, updatedInfo, callback) {
     try {      
-      const nucle = await Nucle.findOneAndUpdate({name: nucleName}, updatedInfo, err => {
+      const nucle = await Nucle.findOneAndUpdate({name: nucleName}, updatedInfo, {new: true}, err => {
         if (err) 
           return callback(response.badRequest('Não foi possível atualizar o núcleo.'));
       });

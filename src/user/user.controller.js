@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const userService = require('./user.service');
 
+const AuthMiddleware = require('../auth/auth.middleware');
+router.use(AuthMiddleware);
+
 router.post('/', (req, res)=> {
   userService.saveUser(req.body, (response) => {
     res.status(response.status).send(response)
